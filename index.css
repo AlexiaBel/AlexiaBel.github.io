@@ -1,0 +1,23 @@
+@font-face {
+    font-family: main-font;
+    src: url(./fonts/8bitOperatorPlus-Regular.woff) format("opentype");
+    font-style: normal
+}
+
+@font-face {
+    font-family: bold-font;
+    src: url(./fonts/8bitOperatorPlus-Bold.woff) format("opentype");
+    font-style: normal
+}
+
+* {
+    image-rendering: pixelated;
+    font-family: main-font,monospace;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
