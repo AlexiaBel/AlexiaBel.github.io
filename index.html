@@ -5,15 +5,91 @@
         <link rel="stylesheet" href="index.css">
     </head>
 
-    <body>
-        <div class="center">
-            BNUUY
-            <img src="images/IMG_3138.jpg" width="300">
+    <body class="background">
+        <div style="background-color: rgba(0, 0, 0, 1);" class="frame">
+            <div class="center">
+                <h1 style="color: #ffffff;">Hi! Im Nora!</h1>
+                <div class="about-wrapper">
+                    <img src="images/carcat.gif" width="300" alt="Nora with bunny">
+                    <div class="about-text">
+                        <h2 style="color: #ffffff;">ABOUT ME</h2>
+                        <p style="color: #ffffff;">I've been a Game dev for 4 years and a programmer for 5. I love making music and coding silly things! I also own a sans plushie. All the non sans plushie owner are in dismay.</p>
+                    </div>
+                    <img src="images/sansplushy.jpg" width="300" alt="sans plushie" class="heart-mask"> 
+                </div>
+
+                <div class="favorites-banner">
+                    <div class="scrolling">
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                        <span>MY FAVORITE MUSIC&nbsp;</span>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- Spotify preview iframe -->
+                <div class="spotify-preview" style="margin-top: 20px; text-align:center;">
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3VoY2M955hxgj9i6g3e5Yj?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+                <div id="chat-room" class="chat-room">
+                    <form id="chat-form" class="chat-form">
+                        <h2>Leave a comment!</h2>
+                        <input type="text" id="username" placeholder="Your name" required maxlength="20" />
+                        <textarea id="message" placeholder="Type a message..." required maxlength="200"></textarea>
+                        <button type="submit">Send</button>
+                    </form>
+                    <div id="messages" class="messages"></div>
+
+                </div>
+            </div>
         </div>
-        
-    </body>
+
 
     <footer>
 
     </footer>
+
+    <script>
+        // load messages from localStorage
+        const messagesEl = document.getElementById('messages');
+        const chatForm = document.getElementById('chat-form');
+        const usernameInput = document.getElementById('username');
+        const messageInput = document.getElementById('message');
+
+        function loadMessages() {
+            const msgs = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            messagesEl.innerHTML = msgs.map(m => {
+                const time = new Date(m.time).getMonth() + '/' + (new Date(m.time).getDate()) + '/' + new Date(m.time).getFullYear() + ' ' + new Date(m.time).getHours() + ':' + String(new Date(m.time).getMinutes()).padStart(2, '0');
+                return `<div style="background-color: hsl(${Math.floor(Math.random() * 360)}, 100%, 75%)" class="msg"><strong>${m.user}</strong> - <em>${time}</em><br><p>${m.text}</p></div>`;
+            }).join('');
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function saveMessage(user, text) {
+            const msgs = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            msgs.push({user, text, time: Date.now()});
+            localStorage.setItem('chatMessages', JSON.stringify(msgs));
+        }
+
+        chatForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const user = usernameInput.value.trim() || 'Anonymous';
+            const text = messageInput.value.trim();
+            if (!text) return;
+            saveMessage(user, text);
+            loadMessages();
+            messageInput.value = '';
+        });
+
+        loadMessages();
+    </script>
 </html>
